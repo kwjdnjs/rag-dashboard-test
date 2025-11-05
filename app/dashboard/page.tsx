@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { mockDashboardStats, mockFAQSuggestions } from '@/lib/mockData'
+import { useEffect, useState } from "react";
+import { mockDashboardStats, mockFAQSuggestions } from "@/lib/mockData";
 import {
   BarChart,
   Bar,
@@ -15,25 +15,33 @@ import {
   Pie,
   Cell,
   LineChart,
-  Line
-} from 'recharts'
-import { MessageSquare, TrendingUp, Clock, ThumbsUp, FileText, CheckCircle, XCircle } from 'lucide-react'
+  Line,
+} from "recharts";
+import {
+  MessageSquare,
+  TrendingUp,
+  Clock,
+  ThumbsUp,
+  FileText,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B']
+const COLORS = ["#3B82F6", "#10B981", "#F59E0B"];
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState(mockDashboardStats)
-  const [suggestions, setSuggestions] = useState(mockFAQSuggestions)
+  const [stats, setStats] = useState(mockDashboardStats);
+  const [suggestions, setSuggestions] = useState(mockFAQSuggestions);
 
   const handleApproveSuggestion = (id: string) => {
-    setSuggestions(prev => prev.filter(s => s.id !== id))
-    alert('FAQ 제안이 승인되었습니다.')
-  }
+    setSuggestions((prev) => prev.filter((s) => s.id !== id));
+    alert("FAQ 제안이 승인되었습니다.");
+  };
 
   const handleRejectSuggestion = (id: string) => {
-    setSuggestions(prev => prev.filter(s => s.id !== id))
-    alert('FAQ 제안이 거절되었습니다.')
-  }
+    setSuggestions((prev) => prev.filter((s) => s.id !== id));
+    alert("FAQ 제안이 거절되었습니다.");
+  };
 
   return (
     <div className="p-6 lg:p-8">
@@ -53,7 +61,9 @@ export default function DashboardPage() {
             <span className="text-sm text-green-600 font-medium">+12%</span>
           </div>
           <p className="text-gray-600 text-sm mb-1">총 질의 수</p>
-          <p className="text-3xl font-bold text-gray-800">{stats.totalQueries.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-gray-800">
+            {stats.totalQueries.toLocaleString()}
+          </p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -64,7 +74,9 @@ export default function DashboardPage() {
             <span className="text-sm text-green-600 font-medium">+5%</span>
           </div>
           <p className="text-gray-600 text-sm mb-1">응답 성공률</p>
-          <p className="text-3xl font-bold text-gray-800">{stats.successRate}%</p>
+          <p className="text-3xl font-bold text-gray-800">
+            {stats.successRate}%
+          </p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -75,7 +87,9 @@ export default function DashboardPage() {
             <span className="text-sm text-green-600 font-medium">-0.2s</span>
           </div>
           <p className="text-gray-600 text-sm mb-1">평균 응답 시간</p>
-          <p className="text-3xl font-bold text-gray-800">{stats.avgResponseTime}초</p>
+          <p className="text-3xl font-bold text-gray-800">
+            {stats.avgResponseTime}초
+          </p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -86,7 +100,9 @@ export default function DashboardPage() {
             <span className="text-sm text-green-600 font-medium">+0.3</span>
           </div>
           <p className="text-gray-600 text-sm mb-1">사용자 만족도</p>
-          <p className="text-3xl font-bold text-gray-800">{stats.userSatisfaction}/5.0</p>
+          <p className="text-3xl font-bold text-gray-800">
+            {stats.userSatisfaction}/5.0
+          </p>
         </div>
       </div>
 
@@ -101,14 +117,21 @@ export default function DashboardPage() {
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="count" stroke="#3B82F6" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="count"
+                stroke="#3B82F6"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Response Types Chart */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">응답 유형 분포</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-6">
+            응답 유형 분포
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -116,13 +139,18 @@ export default function DashboardPage() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ type, percent }) => `${type}: ${(percent * 100).toFixed(0)}%`}
+                label={({ type, percent }) =>
+                  `${type}: ${((percent ?? 0) * 100).toFixed(0)}%`
+                }
                 outerRadius={100}
                 fill="#8884d8"
                 dataKey="count"
               >
                 {stats.responseTypes.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
               <Tooltip />
@@ -136,13 +164,17 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center gap-2 mb-6">
             <FileText className="w-5 h-5 text-blue-600" />
-            <h2 className="text-xl font-bold text-gray-800">가장 많이 참조된 문서</h2>
+            <h2 className="text-xl font-bold text-gray-800">
+              가장 많이 참조된 문서
+            </h2>
           </div>
           <div className="space-y-4">
             {stats.topDocuments.map((doc, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-lg font-bold text-gray-400">#{index + 1}</span>
+                  <span className="text-lg font-bold text-gray-400">
+                    #{index + 1}
+                  </span>
                   <span className="text-gray-700">{doc.name}</span>
                 </div>
                 <span className="text-blue-600 font-medium">{doc.count}회</span>
@@ -153,19 +185,32 @@ export default function DashboardPage() {
 
         {/* FAQ Suggestions */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">FAQ 등록 제안</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-6">
+            FAQ 등록 제안
+          </h2>
           <div className="space-y-4">
             {suggestions.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">제안된 FAQ가 없습니다.</p>
+              <p className="text-gray-500 text-center py-8">
+                제안된 FAQ가 없습니다.
+              </p>
             ) : (
               suggestions.map((suggestion) => (
-                <div key={suggestion.id} className="p-4 border border-gray-200 rounded-lg">
+                <div
+                  key={suggestion.id}
+                  className="p-4 border border-gray-200 rounded-lg"
+                >
                   <div className="mb-3">
-                    <p className="font-medium text-gray-800 mb-1">{suggestion.question}</p>
-                    <p className="text-sm text-gray-600">{suggestion.suggestedAnswer}</p>
+                    <p className="font-medium text-gray-800 mb-1">
+                      {suggestion.question}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {suggestion.suggestedAnswer}
+                    </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">빈도: {suggestion.frequency}회</span>
+                    <span className="text-xs text-gray-500">
+                      빈도: {suggestion.frequency}회
+                    </span>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleApproveSuggestion(suggestion.id)}
@@ -190,5 +235,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
